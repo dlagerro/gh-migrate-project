@@ -776,12 +776,13 @@ const importProjectItem = async (opts: {
           ? optionMappings.get(sourceProjectItemCustomField.optionId)
           : undefined,
     };
+    const sanitizedValue = Object.fromEntries(Object.entries(testValue).filter(([_, v]) => v != null));
     await updateProjectItemFieldValue({
       octokit,
       projectId: targetProjectId,
       itemId: createdProjectItemId,
       fieldId: targetFieldId,
-      value,
+      sanitizedValue,
     });
     logger.info(
       `Finished setting field "${sourceProjectItemCustomField.field.name}" on project item ${createdProjectItemId}`,
